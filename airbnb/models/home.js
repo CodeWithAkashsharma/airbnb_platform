@@ -1,7 +1,6 @@
-const { ObjectId } = require("mongodb");
 const mongoose = require('mongoose');
-const { Types } = require("mysql2");
-const favourite = require("./favourite");
+const User = require("../models/user");
+
 
 const homeSchema = mongoose.Schema({
   homeName: {
@@ -19,10 +18,19 @@ const homeSchema = mongoose.Schema({
 })
 
 
-homeSchema.pre('findOneAndDelete', async function() {
-const houseId = this.getQuery()._id;
-await favourite.deleteMany({houseId:houseId});
+
+
+homeSchema.pre("findOneAndDelete", async function () {
+  const houseId = this.getQuery()._id;
+
+  await User.updateMany(
+    {},
+    { $pull: { favourites: houseId } }
+  );
+
 
 });
+
+
 
 module.exports = mongoose.model('home',homeSchema);

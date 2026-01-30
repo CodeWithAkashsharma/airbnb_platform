@@ -1,4 +1,4 @@
-const favourite = require("../models/favourite");
+const User = require("../models/user");
 const home = require("../models/home");
 
 exports.gethome = (req, res, next) => {
@@ -28,33 +28,28 @@ exports.getBooking = (req, res, next) => {
   });
 };
 
-exports.getFavourite = (req, res, next) => {
-  favourite
-    .find()
-    .populate("houseId")
-    .then((favourites) => {
-      const favouriteHomes = favourites.map((fav) => fav.houseId);
+exports.getFavourite = async(req, res, next) => {
 
-      res.render("user/Favourite-list", {
-        favouriteHomes: favouriteHomes,
+  const userId = req.session.user._id;
+  const user = await User.findById(userId).populate('favourites');
+   res.render("user/Favourite-list", {
+        favouriteHomes: user.favourites,
         Title: "My Favourite",
        
       });
-    });
 };
 
-exports.postfavourite = (req, res, next) => {
+exports.postfavourite = async (req, res, next) => {
   const houseId = req.params.homeId;
+  const userId = req.session.user._id;
 
-  favourite.findOne({ houseId: houseId }).then((fav) => {
-    if (!fav) {
-      const newFav = new favourite({ houseId: houseId });
-      newFav.save();
-    }
-  }).then(() => {
-    res.redirect("/favourite-list");
+  await User.findByIdAndUpdate(userId, {
+    $addToSet: { favourites: houseId }
   });
+
+  res.redirect("/favourite-list");
 };
+
 
 exports.getHomeDetail = (req, res, next) => {
   const homeId = req.params.homeId;
@@ -72,12 +67,16 @@ exports.getHomeDetail = (req, res, next) => {
   });
 };
 
-exports.pdf = (req, res, next) => {
+exports.pdf = async (req, res, next) => {
   const houseId = req.params.homeId;
+const userId = req.session.user._id;
+  const user =await User.findById(userId);
+  if(user.favourites.includes(houseId)){
 
-  favourite
-    .findOneAndDelete({ houseId: houseId })
-    .finally(() => {
-      res.redirect("/favourite-list");
-    });
+    user.favourites = user.favourites.filter(fav=>fav.toString() != houseId );
+  await user.save();
+  }
+ 
+    res.redirect("/favourite-list");
+    
 };

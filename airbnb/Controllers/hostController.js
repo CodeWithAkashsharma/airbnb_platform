@@ -14,7 +14,7 @@ exports.getEditHome = (req, res, next) => {
   home.findById(homeId).then((home) => {
     if (!home) {
       console.log("not found home");
-      return res.redirect("/host/host-homes-list");
+      return res.redirect("/host/homes-list");
     }
 
     res.render("host/edit-home", {
@@ -76,6 +76,6 @@ exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.homeId;
 
   home.findByIdAndDelete(homeId).then(() => {
-    res.redirect("/host/host-homes-list");
+    res.redirect("/host/homes-list");
   });
 };
