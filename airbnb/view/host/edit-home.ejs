@@ -1,0 +1,73 @@
+<%- include('../partials/head') %>
+</head>
+<body class="flex flex-col">
+  <%- include('../partials/nav') %>
+
+    <section class="bg-red-50/30 border-b border-red-100 py-6">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="flex items-center gap-4">
+          <div class="bg-red-100 text-red-600 p-2 rounded-md">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9.75L12 4l9 5.75V19a1 1 0 01-1 1h-5v-5H9v5H4a1 1 0 01-1-1V9.75z"></path></svg>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-red-500">Edit listing — <span class="text-gray-800"><%= home.homeName %></span></h1>
+            <p class="text-sm text-gray-600 mt-1">Update details for this home. Changes are saved immediately after you click <span class="font-semibold">Update</span>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 -mt-6">
+      <form action="/host/edit-home" method="POST" class="w-full bg-white border border-gray-100 rounded-xl shadow-md p-6 sm:p-8">
+
+        <input type="hidden" name="_id" value="<%= home._id %>">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+          <label class="flex flex-col min-w-0">
+            <span class="text-sm font-medium text-gray-700">Home name</span>
+            <input type="text" name="homeName" placeholder="Enter home name" value="<%= home.homeName %>" class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-200" />
+          </label>
+
+          <label class="flex flex-col min-w-0">
+            <span class="text-sm font-medium text-gray-700">Price / night</span>
+            <div class="flex items-center border rounded-lg px-3 py-2 mt-1 bg-white">
+              <span class="font-medium text-md text-gray-600 mr-2">&#8377;</span>
+              <input type="number" name="price" placeholder="Enter price/night" value="<%= home.price %>" class="w-full outline-none border-none" />
+            </div>
+          </label>
+
+          <label class="flex flex-col min-w-0">
+            <span class="text-sm font-medium text-gray-700">Location</span>
+            <input type="text" name="location" placeholder="Enter your location" value="<%= home.location %>" class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-200" />
+          </label>
+
+          <label class="flex flex-col min-w-0">
+            <span class="text-sm font-medium text-gray-700">Rating</span>
+            <input type="number" name="rating" placeholder="House rating (0-5)" min="0" max="5" step="1" value="<%= home.rating %>" class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-200" />
+          </label>
+
+          <label class="flex flex-col sm:col-span-2 min-w-0">
+            <span class="text-sm font-medium text-gray-700">Image URL</span>
+            <input type="url" name="image" placeholder="Drop img URL (JPG/PNG)" value="<%= home.image %>" class="mt-1 w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-200" />
+            <small class="text-xs text-gray-400 mt-1">Add a direct image URL for a quick preview (optional).</small>
+          </label>
+
+          <label class="flex flex-col sm:col-span-2 min-w-0">
+            <span class="text-sm font-medium text-gray-700">Description</span>
+            <textarea name="description" placeholder="Describe your home" class="mt-1 w-full border rounded-lg px-3 py-2 outline-none h-24 sm:h-28 resize-none"><%= home.description %></textarea>
+            <small class="text-xs text-gray-400 mt-1">Mention highlights, nearby attractions, or house rules.</small>
+          </label>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-md shadow-sm transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-red-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5v14"/></svg>
+            <span class="font-medium">Update</span>
+          </button>
+        </div>
+
+      </form>
+    </main>
+
+</body>
+</html>
