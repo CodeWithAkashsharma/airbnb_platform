@@ -1,0 +1,52 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-50">
+
+<%- include('../partials/nav') %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-b from-red-500 to-red-400 py-12 mt-0">
+    <h1 class="text-center font-bold text-4xl md:text-5xl text-white">
+       Welcome to Airbnb 
+    </h1>
+    <p class="text-center text-white/80 mt-2 text-lg">Find your perfect stay</p>
+</div>
+
+<!-- Properties Grid -->
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <% body.forEach(item => { %>
+        <div class="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+          <!-- Image Container -->
+          <div class="relative overflow-hidden h-48 bg-gray-200">
+            <img src="<%= item.image %>" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" alt="<%= item.homeName %>">
+            
+            <!-- Rating Badge -->
+            <div class="absolute top-3 right-3 bg-white text-gray-900 px-2.5 py-1 rounded-md text-xs font-bold shadow-sm">
+              <%= item.rating %> ★
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="p-4 flex flex-col">
+            <h3 class="font-bold text-base text-gray-900 mb-1 line-clamp-1"><%= item.homeName %></h3>
+            <p class="text-gray-600 text-xs mb-3"><%= item.location %></p>
+            
+            <!-- Price -->
+            <div class="flex items-baseline gap-1 mb-4">
+              <span class="text-xl font-bold text-red-500"><%= item.price %></span>
+              <span class="text-gray-600 text-xs">/night</span>
+            </div>
+
+            <!-- Button -->
+            <button class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-md transition duration-200 text-sm">
+              Book Now
+            </button>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+</div>
+
+</body>
+</html>
